@@ -1,0 +1,31 @@
+{
+  "name": "@websyteai/github-mcp-server",
+  "version": "1.0.0",
+  "main": "build/index.js",
+  "type": "module",
+  "bin": {
+    "github-mcp-server": "./build/index.js"
+  },
+  "scripts": {
+    "build": "tsc && chmod +x build/index.js",
+    "start": "node build/index.js",
+    "dev": "tsc && node build/index.js",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "mcp",
+    "github",
+    "modelcontextprotocol"
+  ],
+  "author": "WebsyteAI",
+  "license": "MIT",
+  "description": "GitHub MCP server with organization support",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "0.6.0",
+    "@octokit/rest": "^20.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.24",
+    "typescript": "^5.0.0"
+  }
+}
