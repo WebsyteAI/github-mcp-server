@@ -194,6 +194,11 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
         name: "get_pull_request_reviews",
         description: "Get the reviews on a pull request",
         inputSchema: zodToJsonSchema(pulls.GetPullRequestReviewsSchema)
+      },
+      {
+        name: "delete_repository",
+        description: "Delete a GitHub repository",
+        inputSchema: zodToJsonSchema(repository.DeleteRepositorySchema)
       }
     ],
   };
@@ -453,6 +458,14 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const reviews = await pulls.getPullRequestReviews(args.owner, args.repo, args.pull_number);
         return {
           content: [{ type: "text", text: JSON.stringify(reviews, null, 2) }],
+        };
+      }
+
+      case "delete_repository": {
+        const args = repository.DeleteRepositorySchema.parse(request.params.arguments);
+        const result = await repository.deleteRepository(args.owner, args.repo);
+        return {
+          content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
         };
       }
 

@@ -3,6 +3,11 @@ import { githubRequest } from "../common/utils.js";
 import { GitHubRepositorySchema, GitHubSearchResponseSchema } from "../common/types.js";
 
 // Schema definitions
+export const DeleteRepositorySchema = z.object({
+  owner: z.string().describe("Repository owner (username or organization)"),
+  repo: z.string().describe("Repository name"),
+});
+
 export const CreateRepositoryOptionsSchema = z.object({
   name: z.string().describe("Repository name"),
   description: z.string().optional().describe("Repository description"),
@@ -68,4 +73,13 @@ export async function forkRepository(
     parent: GitHubRepositorySchema,
     source: GitHubRepositorySchema,
   }).parse(response);
+}
+
+export async function deleteRepository(
+  owner: string,
+  repo: string
+) {
+  const url = `https://api.github.com/repos/${owner}/${repo}`;
+  await githubRequest(url, { method: "DELETE" });
+  return { success: true };
 }
